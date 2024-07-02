@@ -5,6 +5,9 @@ services:
     container_name: flask_app
     build: .
     command: flask --app main run --host=0.0.0.0
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
     ports:
       - 5000:5000
     depends_on:
