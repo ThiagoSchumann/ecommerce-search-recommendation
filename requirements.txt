@@ -1,0 +1,4 @@
+Flask
+pika
+SQLAlchemy
+psycopg2
