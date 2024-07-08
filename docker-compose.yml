@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  flask_app:
+    container_name: flask_app
+    build: .
+    restart: always
+    command: python main.py
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+    ports:
+      - 5000:5000
+    volumes:
+    - .:/app
+    depends_on:
+      - rabbitmq
+      - postgres
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      PGPORT: ${DB_PORT}
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  rabbitmq_data:
+  pgdata:
+
