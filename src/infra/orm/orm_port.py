@@ -7,6 +7,10 @@ class ORMPort:
         
     def connect_to_database(self,user,password,host,database):
         self.adapter.connect_to_database(user,password,host,database)
-
-
+    
+    def open_session(self):
+        return self.adapter.open_session()
+    def create_tables(self):
+        self.adapter.create_tables()
+        
 orm = ORMPort(SQLAlchemyAdapter())

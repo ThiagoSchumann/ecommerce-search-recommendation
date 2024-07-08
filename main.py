@@ -11,7 +11,7 @@ orm.connect_to_database(
     host=os.environ['DB_NAME'],
     database=os.environ['DB_PORT'],
 )
-
+orm.create_tables()
 http_server = HttpServer()
 http_server.run()
 
