@@ -1,23 +1,25 @@
 from flask import request
 from src.infra.orm.orm_port import orm
-from src.domain.entities.product import Product
+from src.domain.entities  import Product, Category
 from sqlalchemy.exc import IntegrityError
 
 class ProductRepository:
     
     @staticmethod
-    def create_product(name):
+    def create_product(name,price,amount):
         session = orm.open_session()
         try:
-            data = request.get_json()
-            name = data.get('name')
-
             if not name:
                 raise Exception('name is required')
-
-            new_product = Product(name=name)
+            
+            mock_category = Category(name='categoria')
+            session.add(mock_category)
+            session.commit()
+            
+            new_product = Product(name=name, price=price, amount=amount,category=mock_category)
             session.add(new_product)
             session.commit()
+
             return new_product
         except Exception as e:
             session.rollback()

@@ -10,6 +10,7 @@ class ORMPort:
     
     def open_session(self):
         return self.adapter.open_session()
+    
     def create_tables(self):
         self.adapter.create_tables()
         
