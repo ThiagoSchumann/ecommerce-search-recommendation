@@ -4,8 +4,8 @@ from src.domain.entities.base import Base
 class SQLAlchemyAdapter:
     engine = None
     
-    def connect_to_database(self,user,password,host,database):
-        self.engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}/{database}')
+    def connect_to_database(self,user,password,host,port,database):
+        self.engine = create_engine(f'postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}')
     
     def open_session(self):
         session_factory = sessionmaker(bind=self.engine)

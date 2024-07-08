@@ -8,8 +8,9 @@ message_broker.connect(username=os.environ['RABBITMQ_DEFAULT_USER'],password=os.
 orm.connect_to_database(
     user=os.environ['DB_USER'],
     password=os.environ['DB_PASSWORD'],
-    host=os.environ['DB_NAME'],
-    database=os.environ['DB_PORT'],
+    host=os.environ['DB_HOST'],
+    port=os.environ['DB_PORT'],
+    database=os.environ['DB_NAME'],
 )
 orm.create_tables()
 http_server = HttpServer()
