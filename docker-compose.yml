@@ -1,5 +1,10 @@
 version: '3'
 
+networks:
+  ecommerce_network:
+    driver: bridge
+    external: true
+
 services:
   flask_app:
     container_name: flask_app
@@ -17,34 +22,26 @@ services:
     ports:
       - 5000:5000
     volumes:
-    - .:/app
-    depends_on:
-      - rabbitmq
-      - postgres
-  rabbitmq:
-    image: "rabbitmq:3-management"
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
+      - .:/app
+    networks:
+      - ecommerce_network
+
+  test:
+    container_name: test
+    build: .
+    restart: "no"
+    command: python -m unittest
     environment:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+      - DB_HOST=${DB_HOST}
     ports:
-      - "5672:5672"
-      - "15672:15672"
-  postgres:
-    image: postgres:latest
-    restart: always
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
-      PGPORT: ${DB_PORT}
-    ports:
-      - ${DB_PORT}:${DB_PORT}
+      - "5678:5678"
     volumes:
-      - pgdata:/var/lib/postgresql/data
-
-volumes:
-  rabbitmq_data:
-  pgdata:
-
+      - .:/app
+    networks:
+      - ecommerce_network
