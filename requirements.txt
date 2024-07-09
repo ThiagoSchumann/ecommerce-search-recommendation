@@ -1,4 +1,7 @@
 Flask
 pika
 SQLAlchemy
-psycopg2
+psycopg2-binary
+debugpy
+flask-swagger 
+flask-swagger-ui 

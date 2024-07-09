@@ -1,0 +1,16 @@
+get:
+  tags:
+    - Product
+  description: Get a specific product by ID
+  parameters:
+    - name: product_id
+      in: path
+      type: integer
+      required: True
+  responses:
+    200:
+      description: Product retrieved successfully
+    404:
+      description: Product not found
+    500:
+      description: Internal server error

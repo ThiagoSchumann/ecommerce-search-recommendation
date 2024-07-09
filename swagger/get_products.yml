@@ -1,0 +1,18 @@
+get:
+  tags:
+    - Product
+  description: Get a list of products with pagination
+  parameters:
+    - name: skip
+      in: query
+      type: integer
+      required: False
+    - name: limit
+      in: query
+      type: integer
+      required: False
+  responses:
+    200:
+      description: Products retrieved successfully
+    500:
+      description: Internal server error

@@ -64,4 +64,4 @@ class ProductRepository:
             return None
         session.delete(db_product)
         session.commit()
-        return db_product
+        return True
