@@ -14,7 +14,16 @@ class Product(Base):
 
     def __repr__(self):
         return f'Product(id:{self.id}, name: {self.name}, category_id: {self.category_id}, amount: {self.amount})'
-
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'price': self.price,
+            'amount': self.amount,
+            'category': self.category.to_dict() if self.category else None
+        }
+    
 Category.products = relationship("Product", order_by=Product.id, back_populates="category")
 
 

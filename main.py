@@ -1,18 +1,15 @@
-import os
-from src.infra.message_broker.message_broker_port import message_broker
-from src.infra.orm.orm_port import orm
-from src.infra.http_server.http_server import HttpServer
 
-message_broker.connect(username=os.environ['RABBITMQ_DEFAULT_USER'],password=os.environ['RABBITMQ_DEFAULT_PASS'])
-
-orm.connect_to_database(
-    user=os.environ['DB_USER'],
-    password=os.environ['DB_PASSWORD'],
-    host=os.environ['DB_NAME'],
-    database=os.environ['DB_PORT'],
-)
-orm.create_tables()
-http_server = HttpServer()
-http_server.run()
+from src.infra.application.application import Application
+from src.infra.logging.logging_port import logger
 
 
+def main():
+    try:
+        application = Application()
+        application.run_server()
+    except Exception as e:
+        logger.error(f"Error during initialization: {e}", exc_info=True)
+        raise
+
+if __name__ == '__main__':
+    main()
