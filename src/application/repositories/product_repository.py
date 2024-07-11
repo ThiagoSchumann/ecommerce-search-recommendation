@@ -6,17 +6,14 @@ from sqlalchemy.exc import IntegrityError
 class ProductRepository:
     
     @staticmethod
-    def create_product(name,price,amount):
+    def create_product(name,price,amount,category_id):
         session = orm.open_session()
         try:
             if not name:
                 raise Exception('name is required')
-            
-            mock_category = Category(name='categoria')
-            session.add(mock_category)
-            session.commit()
-            
-            new_product = Product(name=name, price=price, amount=amount,category=mock_category)
+
+            category = session.query(Category).filter(Category.id == category_id).first()
+            new_product = Product(name=name, price=price, amount=amount,category=category)
             session.add(new_product)
             session.commit()
 
@@ -26,7 +23,6 @@ class ProductRepository:
             raise e
         finally:
             session.close()
-    from sqlalchemy.orm import Session
 
     @staticmethod
     def get_product(product_id: int):

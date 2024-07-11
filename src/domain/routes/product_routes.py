@@ -35,7 +35,10 @@ def create_product():
         name = data.get('name')
         price = data.get('price')
         amount = data.get('amount')
-        new_product = ProductRepository.create_product(name, price, amount)
+        category_id = data.get('category_id')
+
+        new_product = ProductRepository.create_product(name, price, amount,category_id)
+        
         return jsonify(new_product.to_dict()), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
